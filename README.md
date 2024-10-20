@@ -54,3 +54,15 @@ Change these Dockerfiles arguments:
     - AUTH_METHOD=password
     - AUTH_USER=admin
     - AUTH_PASSWORD=admin
+
+## TLS
+
+By default TLS is disactivated
+
+### Enable TLS
+
+Change these Dockerfiles arguments for self-signed certificates:
+
+#### Example:
+
+    - TLS=true
