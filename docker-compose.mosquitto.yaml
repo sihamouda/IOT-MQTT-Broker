@@ -1,18 +1,27 @@
 services:
   mosquitto:
     build:
+      target: mosquitto-base
       context: .
-      # args:
-      #   - AUTH_METHOD=password
-      #   - AUTH_USER=admin
-      #   - AUTH_PASSWORD=admin
+      args:
+        - AUTH_METHOD=password
+        - AUTH_USER=admin
+        - AUTH_PASSWORD=admin
+        - TLS=true
     volumes:
       - ./log/:/mosquitto/log/
       - data:/mosquitto/data/
+
     ports:
       - 1883:1883 # mqtt
+      - 8883:8883 # mqtt tls
       # - 9001:9001 # websockets
 
 volumes:
   data:
     name: "mqtt-broker-data"
+
+networks:
+  postgres:
+    name: mqtt
+    driver: bridge

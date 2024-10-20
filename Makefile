@@ -1,5 +1,5 @@
 # Executables: local only
-DOCKER_COMP = docker compose
+DOCKER_COMP = docker compose -f docker-compose.mosquitto.yaml
 DOCKER_COMP_EXEC = $(DOCKER_COMP) exec mosquitto
 
 # Misc

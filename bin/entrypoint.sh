@@ -48,6 +48,26 @@ createAuthConfig() {
     esac
 }
 
+isTLS (){
+    if [ $1 = "true" ];then
+        commentLine listener $CONFIG_FILE_PATH
+        uncommentLine "listener 8883" $CONFIG_FILE_PATH
+        uncommentLine tls_version $CONFIG_FILE_PATH
+        uncommentLine cafile $CONFIG_FILE_PATH
+        uncommentLine keyfile $CONFIG_FILE_PATH
+        uncommentLine certfile $CONFIG_FILE_PATH
+        echo_green "######## TLS ACTIVATED ! ########"
+    else
+        commentLine listener $CONFIG_FILE_PATH
+        uncommentLine "listener 1883" $CONFIG_FILE_PATH
+        commentLine tls_version $CONFIG_FILE_PATH
+        commentLine cafile $CONFIG_FILE_PATH
+        commentLine keyfile $CONFIG_FILE_PATH
+        commentLine certfile $CONFIG_FILE_PATH
+        echo_red "######## TLS DESACTIVATED ! ########"
+    fi;
+}
+
 createPasswordFile() {
     if [ -z "$1" ] || [ -z "$2" ]; then
         echo_red "empty user or password"
@@ -58,7 +78,7 @@ createPasswordFile() {
     fi
 }
 
-while getopts ":a:u:p:" opt; do
+while getopts ":a:u:p:s:" opt; do
     case ${opt} in
         a)
             createAuthConfig $OPTARG
@@ -68,6 +88,9 @@ while getopts ":a:u:p:" opt; do
         ;;
         p)
             createPasswordFile $USER $OPTARG
+        ;;
+        s)
+            isTLS $OPTARG
         ;;
         :)
             echo "Option -${OPTARG} requires an argument."
