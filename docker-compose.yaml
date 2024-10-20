@@ -2,25 +2,16 @@ services:
   mosquitto:
     build:
       context: .
+      # args:
+      #   - AUTH_METHOD=password
+      #   - AUTH_USER=admin
+      #   - AUTH_PASSWORD=admin
     volumes:
-      - type: bind
-        source: ./config/
-        target: /mosquitto/config/
-      - type: bind
-        source: ./log/
-        target: /mosquitto/log/
-      - type: volume
-        source: data
-        target: /mosquitto/data/
+      - ./log/:/mosquitto/log/
+      - data:/mosquitto/data/
     ports:
-      - target: 1883
-        published: 1883
-        protocol: tcp
-        mode: host
-      - target: 9001
-        published: 9001
-        protocol: tcp
-        mode: host
+      - 1883:1883 # mqtt
+      # - 9001:9001 # websockets
 
 volumes:
   data:

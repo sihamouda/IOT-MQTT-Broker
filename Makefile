@@ -13,13 +13,16 @@ alias: ## Displays all alias of the package manager
 
 ## —— Docker 🐳 ————————————————————————————————————————————————————————————————
 build: ## Builds the Node image
-	$(DOCKER_COMP) build
+	BUILDKIT_PROGRESS=plain $(DOCKER_COMP) build --no-cache
 
 up: ## Starts the docker hub
 	$(DOCKER_COMP) up -d
 
 down: ## Stops the docker hub
 	$(DOCKER_COMP) down --remove-orphans
+
+remove: ## Remove the docker hub
+	$(DOCKER_COMP) down --remove-orphans -v
 
 restart: ## Restarts the docker hub
 	$(DOCKER_COMP) restart
@@ -32,5 +35,10 @@ logs: ## Displays the logs of the application container
 
 ## —— Project 🐝 ———————————————————————————————————————————————————————————————
 setup-project: ## Initializes configuration
-	bin/setup
 	make build
+
+## —— Dev ⚙️ ———————————————————————————————————————————————————————————————
+dev: ## Destroy server and rebuild
+	make remove	
+	make build
+	make up

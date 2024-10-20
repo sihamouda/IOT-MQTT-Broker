@@ -4,12 +4,12 @@ ARG UID
 ARG GID
 ARG USER
 
-RUN if [ ${USER} != "root" ]; then \
-        apk add shadow && \
-        groupadd -f -g ${GID} ${USER} && \
-        useradd -m -g ${USER} -u ${UID} ${USER}; \
-    fi
+ARG AUTH_METHOD=false
+ARG AUTH_USER
+ARG AUTH_PASSWORD
 
-RUN chown -R ${USER}:${USER} /mosquitto
+COPY config/mosquitto.conf /mosquitto/config/mosquitto.conf
+COPY bin/entrypoint.sh /mosquitto/entrypoint.sh
+RUN /mosquitto/entrypoint.sh -a ${AUTH_METHOD} -u ${AUTH_USER} -p ${AUTH_PASSWORD}
 
-USER ${USER}
+CMD /usr/sbin/mosquitto --verbose -c /mosquitto/config/mosquitto.conf

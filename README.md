@@ -11,16 +11,12 @@ This is a simple [Mosquitto](https://mosquitto.org) broker to quickly initialize
 
 ## How to use
 
-At first startup, you need to setup the project:
+For development purposes, you need to setup the project:
+
+<em>It will rebuild the mosquitto server (and will purge volumes)</em>
 
 ```bash
-make setup-project
-```
-
-Then, and for other startup, you just have to run:
-
-```bash
-make up
+make dev
 ```
 
 > Find other `make` helper command in the [Makefile](./Makefile)
@@ -47,22 +43,14 @@ By default we activated the log and data persistance (logs are in the `log` fold
 
 ## Authentication
 
+By default authentication is disactivated
+
 ### Enable authentication
 
-In the config file, set the value `allow_anonymous` to `false`, then uncomment the last line (`password_file`) and finaly restart the container.
+Change these Dockerfiles arguments:
 
-> The default user is `admin/password`.
+#### Example:
 
-### Change user password / create a new user
-
-```bash
-docker compose exec mosquitto mosquitto_passwd -b /mosquitto/config/password.txt user password
-make restart
-```
-
-### Delete user
-
-```bash
-docker compose exec mosquitto mosquitto_passwd -D /mosquitto/config/password.txt user
-make restart
-```
+    - AUTH_METHOD=password
+    - AUTH_USER=admin
+    - AUTH_PASSWORD=admin
