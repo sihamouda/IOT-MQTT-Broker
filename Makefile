@@ -45,3 +45,9 @@ dev: ## Destroy server and rebuild
 
 venv: ## Creates venv
 	(cd clients && python3 -m venv venv)
+
+sub: ## run subscriber client snippet
+	(cd clients && python3 subscriber.py)
+
+pub: ## run subscriber client snippet
+	(cd clients && python3 publisher.py)
