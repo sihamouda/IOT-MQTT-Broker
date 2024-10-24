@@ -59,6 +59,7 @@ function isTLS {
         uncommentLine cafile $CONFIG_FILE_PATH
         uncommentLine keyfile $CONFIG_FILE_PATH
         uncommentLine certfile $CONFIG_FILE_PATH
+        cp -r /tmp/certs/ /mosquitto/certs/
         echo_green "######## TLS ACTIVATED ! ########"
     else
         commentLine listener $CONFIG_FILE_PATH
@@ -107,3 +108,4 @@ while getopts ":a:u:p:s:" opt; do
     esac
 done  
 
+/usr/sbin/mosquitto --verbose -c /mosquitto/config/mosquitto.conf

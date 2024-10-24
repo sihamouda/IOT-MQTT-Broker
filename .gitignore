@@ -2,3 +2,8 @@ log/mosquitto.log
 config/mosquitto.conf
 config/password.txt
 docker-compose.override.yml
+*crt
+*key
+*csr
+venv
+__pycache__

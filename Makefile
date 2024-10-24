@@ -42,3 +42,6 @@ dev: ## Destroy server and rebuild
 	make remove	
 	make build
 	make up
+
+venv: ## Creates venv
+	(cd clients && python3 -m venv venv)
